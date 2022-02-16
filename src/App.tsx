@@ -1,18 +1,28 @@
 import AngleButton from "components/AngleButton";
 import NumberButton from "components/NumberButton";
 import OperationButton from "components/OperationButton";
-import { useReducer } from "react";
+import { useReducer, Reducer, FC } from "react";
 import { reducer, initialState } from "reducer";
+import actionTypes from "actionTypes";
+import { Action, stateInterface } from "interface";
 
-const App: React.FC = () => {
-	const [state, dispatch] = useReducer(reducer, initialState);
+const App: FC = () => {
+	const [state, dispatch] = useReducer<Reducer<stateInterface, Action>>(
+		reducer,
+		initialState
+	);
+	console.log({ state });
 
 	return (
 		<div className="background">
 			<div className="calculator">
 				<div className="screen">
 					<p className="top-screen">12</p>
-					<p className="bottom-screen">{state.total}</p>
+					<p className="bottom-screen">
+						{state.visible_start}
+						{state.number}
+						{state.visible_end}
+					</p>
 				</div>
 				<div className="btns-cont">
 					<table>
@@ -37,13 +47,25 @@ const App: React.FC = () => {
 								</td>
 								<td>
 									<OperationButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({
+												type: actionTypes.CLICK_EXPRESSION,
+												visible_start: "sin",
+												eval_start: "Math.sin"
+											})
+										}
 										operation="sin"
 									/>
 								</td>
 								<td>
 									<OperationButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({
+												type: actionTypes.CLICK_EXPRESSION,
+												visible_start: "ln",
+												eval_start: "Math.log"
+											})
+										}
 										operation="ln"
 									/>
 								</td>
@@ -57,13 +79,25 @@ const App: React.FC = () => {
 								</td>
 								<td>
 									<OperationButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({
+												type: actionTypes.CLICK_EXPRESSION,
+												visible_start: "cos",
+												eval_start: "Math.cos"
+											})
+										}
 										operation="cos"
 									/>
 								</td>
 								<td>
 									<OperationButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({
+												type: actionTypes.CLICK_EXPRESSION,
+												visible_start: "log",
+												eval_start: "Math.log10"
+											})
+										}
 										operation="log"
 									/>
 								</td>
@@ -77,13 +111,25 @@ const App: React.FC = () => {
 								</td>
 								<td>
 									<OperationButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({
+												type: actionTypes.CLICK_EXPRESSION,
+												visible_start: "tan",
+												eval_start: "Math.tan"
+											})
+										}
 										operation="tan"
 									/>
 								</td>
 								<td>
 									<OperationButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({
+												type: actionTypes.CLICK_EXPRESSION,
+												visible_start: "√",
+												eval_start: "Math.sqrt"
+											})
+										}
 										operation="√"
 									/>
 								</td>
@@ -134,7 +180,7 @@ const App: React.FC = () => {
 								</td>
 								<td>
 									<OperationButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() => dispatch({ type: actionTypes.CLEAR })}
 										operation="AC"
 									/>
 								</td>
@@ -142,25 +188,37 @@ const App: React.FC = () => {
 							<tr>
 								<td>
 									<NumberButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({ type: actionTypes.CLICK_NUMBER, number: 7 })
+										}
 										number={7}
 									/>
 								</td>
 								<td>
 									<NumberButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({ type: actionTypes.CLICK_NUMBER, number: 8 })
+										}
 										number={8}
 									/>
 								</td>
 								<td>
 									<NumberButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({ type: actionTypes.CLICK_NUMBER, number: 9 })
+										}
 										number={9}
 									/>
 								</td>
 								<td>
 									<OperationButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({
+												type: actionTypes.CLICK_OPERATION,
+												operation: "/",
+												visible_text: "÷"
+											})
+										}
 										operation="÷"
 									/>
 								</td>
@@ -168,25 +226,37 @@ const App: React.FC = () => {
 							<tr>
 								<td>
 									<NumberButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({ type: actionTypes.CLICK_NUMBER, number: 4 })
+										}
 										number={4}
 									/>
 								</td>
 								<td>
 									<NumberButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({ type: actionTypes.CLICK_NUMBER, number: 5 })
+										}
 										number={5}
 									/>
 								</td>
 								<td>
 									<NumberButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({ type: actionTypes.CLICK_NUMBER, number: 6 })
+										}
 										number={6}
 									/>
 								</td>
 								<td>
 									<OperationButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({
+												type: actionTypes.CLICK_OPERATION,
+												operation: "*",
+												visible_text: "×"
+											})
+										}
 										operation="×" // not x
 									/>
 								</td>
@@ -194,25 +264,37 @@ const App: React.FC = () => {
 							<tr>
 								<td>
 									<NumberButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({ type: actionTypes.CLICK_NUMBER, number: 1 })
+										}
 										number={1}
 									/>
 								</td>
 								<td>
 									<NumberButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({ type: actionTypes.CLICK_NUMBER, number: 2 })
+										}
 										number={2}
 									/>
 								</td>
 								<td>
 									<NumberButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({ type: actionTypes.CLICK_NUMBER, number: 3 })
+										}
 										number={3}
 									/>
 								</td>
 								<td>
 									<OperationButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({
+												type: actionTypes.CLICK_OPERATION,
+												operation: "-",
+												visible_text: "-"
+											})
+										}
 										operation="-"
 									/>
 								</td>
@@ -226,16 +308,33 @@ const App: React.FC = () => {
 								</td>
 								<td>
 									<NumberButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({ type: actionTypes.CLICK_DECIMAL })
+										}
 										number="."
 									/>
 								</td>
 								<td>
-									<button className="total-btn">=</button>
+									<button
+										className="total-btn"
+										onClick={() =>
+											dispatch({
+												type: actionTypes.EVALUATE
+											})
+										}
+									>
+										=
+									</button>
 								</td>
 								<td>
 									<OperationButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({
+												type: actionTypes.CLICK_OPERATION,
+												operation: "+",
+												visible_text: "+"
+											})
+										}
 										operation="+"
 									/>
 								</td>
