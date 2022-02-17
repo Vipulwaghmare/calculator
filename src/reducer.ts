@@ -1,12 +1,14 @@
 import actionTypes from "actionTypes";
-import { Action, expressionInterface, numberInterface, operationInterface, stateInterface } from "interface";
+import { Action, expressionInterface, numberInterface, operationInterface, specialInterface, stateInterface } from "interface";
 
 export const initialState: stateInterface = {
   visible_start: "",
   visible_end: "",
   number: '0',
   eval_start: "",
-  eval_end: ""
+  eval_end: "",
+  isInverse: false,
+  isRadian: true,
 }
 
 function isClickNumber(action: Action): action is numberInterface {
@@ -17,6 +19,9 @@ function isClickExpression(action: Action): action is expressionInterface {
 }
 function isClickOperation(action: Action): action is operationInterface {
   return action.type === actionTypes.CLICK_OPERATION
+}
+function isClickSpecial(action: Action): action is specialInterface {
+  return action.type === actionTypes.CLICK_SPECIAL
 }
 
 
@@ -31,9 +36,10 @@ export const reducer: React.Reducer<stateInterface, Action> = (state, action) =>
     return {
       ...state,
       visible_start: state.visible_start + action.visible_start + "(",
-      visible_end: ")",
+      visible_end: state.visible_end + ")",
       eval_start: state.eval_start + action.eval_start + "(",
-      eval_end: ")"
+      eval_end: state.eval_end + ")",
+      number: state.number === "0" ? '' : state.number
     };
   }
 
@@ -45,9 +51,20 @@ export const reducer: React.Reducer<stateInterface, Action> = (state, action) =>
       number: ""
     };
   }
+
+  if (isClickSpecial(action)) {
+    let { number, eval_start, visible_start } = state;
+    if (number === "0") number = '';
+    return {
+      ...state,
+      visible_start: number ? `${visible_start}${number}${action.display}` : `${visible_start}${number}${action.display}`,
+      eval_start: number ? `${eval_start} ${number} * ${action.value}` : `${visible_start} ${action.value}`,
+      number: ""
+    }
+  }
   switch (action.type) {
     case actionTypes.CLEAR:
-      return { ...state, number: '0' }
+      return { ...initialState }
     case actionTypes.CLICK_DECIMAL:
       if (state.number.indexOf('.') < 0) return { ...state, number: state.number + "." }
       else return state;
@@ -65,6 +82,19 @@ export const reducer: React.Reducer<stateInterface, Action> = (state, action) =>
       } catch (error) {
         console.error(error)
         return { ...state, number: "ERROR" }
+      }
+    case actionTypes.CLICK_INVERSE:
+      return {
+        ...state,
+        isInverse: !state.isInverse
+      }
+    case actionTypes.CLICK_RANDOM:
+      return {
+        ...state,
+        visible_start: state.number ? `${state.visible_start}${state.number} x ` : state.visible_start,
+        eval_start: state.number ? `${state.eval_start}${state.number} * ` : state.eval_start,
+        number: Math.random().toFixed(6),
+        isInverse: !state.isInverse,
       }
     case 'increment':
       return { ...state, number: 0 }

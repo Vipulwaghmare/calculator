@@ -6,6 +6,8 @@ export interface stateInterface {
   number: string;
   eval_start: string;
   eval_end: string;
+  isInverse: boolean;
+  isRadian: boolean;
 }
 
 export interface numberInterface {
@@ -26,8 +28,20 @@ export interface operationInterface {
 }
 
 
+export interface operationInterface {
+  type: actionTypes.CLICK_OPERATION,
+  operation: string,
+  visible_text: string
+}
+
+export interface specialInterface {
+  type: actionTypes.CLICK_SPECIAL,
+  value: string,
+  display: string
+}
+
 interface otherInterface {
   type: string;
 }
 
-export type Action = numberInterface | otherInterface | expressionInterface | operationInterface
+export type Action = numberInterface | otherInterface | expressionInterface | operationInterface | specialInterface
