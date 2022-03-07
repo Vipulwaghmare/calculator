@@ -81,6 +81,7 @@ export const reducer: React.Reducer<stateInterface, Action> = (state, action) =>
     case actionTypes.EVALUATE:
       console.log("eval", state.eval_start + state.number + state.eval_end)
       try {
+        // eslint-disable-next-line no-eval
         const answer = eval(state.eval_start + state.number + state.eval_end).toString();
         return {
           ...state,
