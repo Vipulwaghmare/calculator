@@ -17,7 +17,7 @@ const App: FC = () => {
 		<div className="background">
 			<div className="calculator">
 				<div className="screen">
-					<p className="top-screen">12</p>
+					<p className="top-screen">{state.answer}</p>
 					<p className="bottom-screen">
 						{state.visible_start}
 						{state.number}
@@ -29,13 +29,13 @@ const App: FC = () => {
 						<tbody>
 							<tr>
 								<td colSpan={2}>
-									<AngleButton />
+									<AngleButton
+										isRadian={state.isRadian}
+										onClick={() => dispatch({ type: actionTypes.CHANGE_ANGLE })}
+									/>
 								</td>
 								<td>
-									<OperationButton
-										onClick={() => dispatch({ type: "increment" })}
-										operation="x!"
-									/>
+									<OperationButton onClick={() => {}} operation="x!" />
 								</td>
 							</tr>
 							<tr>
@@ -131,6 +131,19 @@ const App: FC = () => {
 												cos<sup>-1</sup>
 											</OperationButton>
 										</td>
+										<td>
+											<OperationButton
+												onClick={() =>
+													dispatch({
+														type: actionTypes.CLICK_EXPRESSION,
+														visible_start: "10^",
+														eval_start: "10**"
+													})
+												}
+											>
+												10<sup>x</sup>
+											</OperationButton>
+										</td>
 									</>
 								) : (
 									<>
@@ -189,6 +202,11 @@ const App: FC = () => {
 												tan<sup>-1</sup>
 											</OperationButton>
 										</td>
+										<td>
+											<OperationButton onClick={() => {}}>
+												x<sup>2</sup>
+											</OperationButton>
+										</td>
 									</>
 								) : (
 									<>
@@ -231,25 +249,21 @@ const App: FC = () => {
 									</td>
 								) : (
 									<td>
-										<OperationButton
-											onClick={() => dispatch({ type: "increment" })}
-											operation="Ans"
-										/>
+										<OperationButton onClick={() => {}} operation="Ans" />
 									</td>
 								)}
 								<td>
-									<OperationButton
-										onClick={() => dispatch({ type: "increment" })}
-										operation="EXP"
-									/>
+									<OperationButton onClick={() => {}} operation="EXP" />
 								</td>
 								{state.isInverse ? (
-									<></>
+									<td>
+										<OperationButton onClick={() => {}}>
+											<sup>y</sup>√x
+										</OperationButton>
+									</td>
 								) : (
 									<td>
-										<OperationButton
-											onClick={() => dispatch({ type: "increment" })}
-										>
+										<OperationButton onClick={() => {}}>
 											x<sup>y</sup>
 										</OperationButton>
 									</td>
@@ -261,22 +275,13 @@ const App: FC = () => {
 						<tbody>
 							<tr>
 								<td>
-									<OperationButton
-										onClick={() => dispatch({ type: "increment" })}
-										operation="("
-									/>
+									<OperationButton onClick={() => {}} operation="(" />
 								</td>
 								<td>
-									<OperationButton
-										onClick={() => dispatch({ type: "increment" })}
-										operation=")"
-									/>
+									<OperationButton onClick={() => {}} operation=")" />
 								</td>
 								<td>
-									<OperationButton
-										onClick={() => dispatch({ type: "increment" })}
-										operation="%"
-									/>
+									<OperationButton onClick={() => {}} operation="%" />
 								</td>
 								<td>
 									<OperationButton
@@ -402,7 +407,9 @@ const App: FC = () => {
 							<tr>
 								<td>
 									<NumberButton
-										onClick={() => dispatch({ type: "increment" })}
+										onClick={() =>
+											dispatch({ type: actionTypes.CLICK_NUMBER, number: 0 })
+										}
 										number={0}
 									/>
 								</td>

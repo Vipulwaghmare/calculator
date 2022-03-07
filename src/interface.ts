@@ -8,6 +8,7 @@ export interface stateInterface {
   eval_end: string;
   isInverse: boolean;
   isRadian: boolean;
+  answer: string;
 }
 
 export interface numberInterface {
